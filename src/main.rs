@@ -54,6 +54,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
     let total_cholesterol_score = total_cholesterol_scoring(&person);
     let hdl_score = hdl_scoring(&person);
     let framingham_score = age_score + hdl_score + total_cholesterol_score + sbp_score + diabetic_score;
+    let heart_age = heart_age(&person.sex, framingham_score);
 
     let result = json!({
         "Age": person.age,
@@ -70,7 +71,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
         "Total Cholesterol score": total_cholesterol_score,
         "HDL score": hdl_score,
         "CVD Risk":"10.0 %",
-        "Heart age/vascular age":"73 y/o",
+        "Heart age/vascular age":heart_age,
         "Smoker score":smoke_score,
         "SBP score": sbp_score
     });
@@ -249,4 +250,78 @@ fn hdl_scoring(person : &Person) -> isize {
     }
 
     return 0;
+}
+
+fn heart_age (sex : &String, framingham_score : isize) -> &str {
+    if framingham_score >= 2 && framingham_score < 3 {
+        "34 y/o";
+    } else if framingham_score >= 3 && framingham_score < 4 {
+        "36 y/o";
+    }
+
+    if sex.eq("Men") {
+        if framingham_score >= 0 && framingham_score < 1 {
+            "30 y/o";
+        } else if framingham_score >= 1 && framingham_score < 2 {
+            "32 y/o";
+        } else if framingham_score >= 4 && framingham_score < 5 {
+            "38 y/o";
+        } else if framingham_score >= 5 && framingham_score < 6 {
+            "40 y/o";
+        } else if framingham_score >= 6 && framingham_score < 7 {
+            "42 y/o";
+        } else if framingham_score >= 7 && framingham_score < 8 {
+            "45 y/o";
+        } else if framingham_score >= 8 && framingham_score < 9 {
+            "48 y/o";
+        } else if framingham_score >= 9 && framingham_score < 10 {
+            "51 y/o";
+        } else if framingham_score >= 10 && framingham_score < 11 {
+            "54 y/o";
+        } else if framingham_score >= 11 && framingham_score < 12 {
+            "57 y/o";
+        } else if framingham_score >= 12 && framingham_score < 13 {
+            "60 y/o";
+        } else if framingham_score >= 13 && framingham_score < 14 {
+            "64 y/o";
+        } else if framingham_score >= 14 && framingham_score < 15 {
+            "68 y/o";
+        } else if framingham_score >= 15 && framingham_score < 16 {
+            "72 y/o";
+        } else if framingham_score >= 16 && framingham_score < 17 {
+            "76 y/o";
+        } else if framingham_score >= 17 {
+            ">80 y/o";
+        }
+    } else {
+        if framingham_score >= 1 && framingham_score < 2 {
+            "31 y/o";
+        } else if framingham_score >= 4 && framingham_score < 5 {
+            "39 y/o";
+        } else if framingham_score >= 5 && framingham_score < 6 {
+            "42 y/o";
+        } else if framingham_score >= 6 && framingham_score < 7 {
+            "45 y/o";
+        } else if framingham_score >= 7 && framingham_score < 8 {
+            "48 y/o";
+        } else if framingham_score >= 8 && framingham_score < 9 {
+            "51 y/o";
+        } else if framingham_score >= 9 && framingham_score < 10 {
+            "55 y/o";
+        } else if framingham_score >= 10 && framingham_score < 11 {
+            "59 y/o";
+        } else if framingham_score >= 11 && framingham_score < 12 {
+            "64 y/o";
+        } else if framingham_score >= 12 && framingham_score < 13 {
+            "68 y/o";
+        } else if framingham_score >= 13 && framingham_score < 14 {
+            "73 y/o";
+        } else if framingham_score >= 14 && framingham_score < 15 {
+            "79 y/o";
+        } else if framingham_score >= 15 {
+            ">80 y/o";
+        }
+    }
+    
+    "<30 y/o"
 }
