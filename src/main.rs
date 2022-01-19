@@ -51,6 +51,8 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
     let smoke_score = smoke_scoring(&person);
     let diabetic_score = diabetic_scoring(&person);
     let sbp_score = sbp_scoring(&person);
+    let total_cholesterol_score = total_cholesterol_scoring(&person);
+    let hdl_score = hdl_scoring(&person);
 
     let result = json!({
         "Age": person.age,
@@ -64,8 +66,8 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
         "Age score": age_score,
         "Diabetic score": diabetic_score,
         "Framingham score":13,
-        "Total Cholesterol score":1,
-        "HDL score":0,
+        "Total Cholesterol score": total_cholesterol_score,
+        "HDL score": hdl_score,
         "CVD Risk":"10.0 %",
         "Heart age/vascular age":"73 y/o",
         "Smoker score":smoke_score,
@@ -199,5 +201,51 @@ fn sbp_scoring(person : &Person) -> isize {
             }
         }    
     }
+    return 0;
+}
+
+fn total_cholesterol_scoring(person : &Person) -> isize {
+
+    if person.total_cholesterol < 160 {
+        0;
+    } else if person.total_cholesterol >= 160 && person.total_cholesterol < 200 {
+        1;
+    }
+
+    if person.sex.eq("Men") {
+        if person.total_cholesterol >= 200 && person.total_cholesterol < 240 {
+            2;
+        } else if person.total_cholesterol >= 240 && person.total_cholesterol < 280 {
+            3;
+        } else {
+            4;
+        }
+    } else {
+        if person.total_cholesterol >= 200 && person.total_cholesterol < 240 {
+            3;
+        } else if person.total_cholesterol >= 240 && person.total_cholesterol < 280 {
+            4;
+        } else {
+            5;
+        }
+    }
+
+    return 0;
+}
+
+fn hdl_scoring(person : &Person) -> isize {
+
+    if person.hdl_cholesterol >= 60 {
+        return -2;
+    } else if person.hdl_cholesterol >= 50 && person.hdl_cholesterol < 60 {
+        return -1;
+    } else if person.hdl_cholesterol >= 45 && person.hdl_cholesterol < 50 {
+        return 0;
+    } else if person.hdl_cholesterol >= 35 && person.hdl_cholesterol < 45 {
+        return 1;
+    } else if person.hdl_cholesterol < 35 {
+        return 2;
+    }
+
     return 0;
 }
