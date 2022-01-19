@@ -50,6 +50,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
     let age_score = age_scoring(&person);
     let smoke_score = smoke_scoring(&person);
     let diabetic_score = diabetic_scoring(&person);
+    let sbp_score = sbp_scoring(&person);
 
     let result = json!({
         "Age": person.age,
@@ -68,7 +69,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
         "CVD Risk":"10.0 %",
         "Heart age/vascular age":"73 y/o",
         "Smoker score":smoke_score,
-        "SBP score":0
+        "SBP score": sbp_score
     });
 
     Ok(warp::reply::json(&result))
@@ -131,7 +132,7 @@ fn smoke_scoring(person : &Person) -> usize {
 }
 
 fn diabetic_scoring(person : &Person) -> usize {
-    if person.smoker == true { 
+    if person.diabetic == true { 
         if person.sex.eq("Women") {
             4;
         } else {
@@ -139,4 +140,64 @@ fn diabetic_scoring(person : &Person) -> usize {
         }
     }
     0
+}
+
+fn sbp_scoring(person : &Person) -> isize {
+
+    if !person.on_sbp_treatment {
+        if person.systolic_blood_pressure >= 120 &&  person.systolic_blood_pressure < 130 {
+            0;
+        } else if person.systolic_blood_pressure >= 130 &&  person.systolic_blood_pressure < 140 {
+            1;
+        }
+    } else {
+        if person.systolic_blood_pressure >= 120 &&  person.systolic_blood_pressure < 130 {
+            2;
+        } else if person.systolic_blood_pressure >= 130 &&  person.systolic_blood_pressure < 140 {
+            3;
+        }
+    }
+
+    if person.sex.eq("Men") {
+        if !person.on_sbp_treatment {
+            if person.systolic_blood_pressure < 120 {
+                return -2;
+            } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 160 {
+                2;
+            } else if person.systolic_blood_pressure >= 160 {
+                3;
+            }
+        } else {
+            if person.systolic_blood_pressure < 120 {
+                return 0;
+            } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 160 {
+                4;
+            } else if person.systolic_blood_pressure >= 160 {
+                5;
+            }
+        }    
+    } else {
+        if !person.on_sbp_treatment {
+            if person.systolic_blood_pressure < 120 {
+                return -3;
+            } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 150 {
+                2;
+            } else if person.systolic_blood_pressure >= 150 &&  person.systolic_blood_pressure < 160 {
+                4;
+            } else if person.systolic_blood_pressure >= 160 {
+                5;
+            }
+        } else {
+            if person.systolic_blood_pressure < 120 {
+                return -1;
+            } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 150 {
+                5;
+            } else if person.systolic_blood_pressure >= 150 &&  person.systolic_blood_pressure < 160 {
+                6;
+            } else if person.systolic_blood_pressure >= 160 {
+                7;
+            }
+        }    
+    }
+    return 0;
 }
