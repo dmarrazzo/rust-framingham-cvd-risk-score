@@ -79,134 +79,134 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
     Ok(warp::reply::json(&result))
 }
 
-fn age_scoring(person : &Person) -> isize {
+fn age_scoring(person : &Person) -> f64 {
     if person.age < 35 {
-        return 0;
+        return 0.0;
     } else if person.age < 40 {
-        return 2;
+        return 2.0;
     } else if person.sex.eq("Men") {
         if person.age < 45 {
-            return 5;
+            return 5.0;
         } else if person.age < 50 {
-            return 6;
+            return 6.0;
         } else if person.age < 55 {
-            return 8;
+            return 8.0;
         } else if person.age < 60 {
-            return 10;
+            return 10.0;
         } else if person.age < 65 {
-            return 11;
+            return 11.0;
         } else if person.age < 70 {
-            return 12;
+            return 12.0;
         } else if person.age < 75 {
-            return 14;
+            return 14.0;
         } else {
-            return 15;
+            return 15.0;
         }
     } else if person.sex.eq("Women") {
         if person.age < 45 {
-            return 4;
+            return 4.0;
         } else if person.age < 50 {
-            return 5;
+            return 5.0;
         } else if person.age < 55 {
-            return 7;
+            return 7.0;
         } else if person.age < 60 {
-            return 8;
+            return 8.0;
         } else if person.age < 65 {
-            return 9;
+            return 9.0;
         } else if person.age < 70 {
-            return 10;
+            return 10.0;
         } else if person.age < 75 {
-            return 11;
+            return 11.0;
         } else {
-            return 12;
+            return 12.0;
         }
     }
-    0
+    0.0
 }
 
-fn smoke_scoring(person : &Person) -> isize {
+fn smoke_scoring(person : &Person) -> f64 {
     if person.smoker == true { 
         if person.sex.eq("Women") {
-            3;
+            3.0;
         } else {
-            4;
+            4.0;
         }
     }
-    0
+    0.0
 }
 
-fn diabetic_scoring(person : &Person) -> isize {
+fn diabetic_scoring(person : &Person) -> f64 {
     if person.diabetic == true { 
         if person.sex.eq("Women") {
-            4;
+            4.0;
         } else {
-            3;
+            3.0;
         }
     }
-    0
+    0.0
 }
 
-fn sbp_scoring(person : &Person) -> isize {
+fn sbp_scoring(person : &Person) -> f64 {
 
     if !person.on_sbp_treatment {
         if person.systolic_blood_pressure >= 120 &&  person.systolic_blood_pressure < 130 {
-            0;
+            0.0;
         } else if person.systolic_blood_pressure >= 130 &&  person.systolic_blood_pressure < 140 {
-            1;
+            1.0;
         }
     } else {
         if person.systolic_blood_pressure >= 120 &&  person.systolic_blood_pressure < 130 {
-            2;
+            2.0;
         } else if person.systolic_blood_pressure >= 130 &&  person.systolic_blood_pressure < 140 {
-            3;
+            3.0;
         }
     }
 
     if person.sex.eq("Men") {
         if !person.on_sbp_treatment {
             if person.systolic_blood_pressure < 120 {
-                return -2;
+                return -2.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 160 {
-                2;
+                2.0;
             } else if person.systolic_blood_pressure >= 160 {
-                3;
+                3.0;
             }
         } else {
             if person.systolic_blood_pressure < 120 {
-                return 0;
+                return 0.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 160 {
-                4;
+                4.0;
             } else if person.systolic_blood_pressure >= 160 {
-                5;
+                5.0;
             }
         }    
     } else {
         if !person.on_sbp_treatment {
             if person.systolic_blood_pressure < 120 {
-                return -3;
+                return -3.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 150 {
-                2;
+                2.0;
             } else if person.systolic_blood_pressure >= 150 &&  person.systolic_blood_pressure < 160 {
-                4;
+                4.0;
             } else if person.systolic_blood_pressure >= 160 {
-                5;
+                5.0;
             }
         } else {
             if person.systolic_blood_pressure < 120 {
-                return -1;
+                return -1.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 150 {
-                5;
+                5.0;
             } else if person.systolic_blood_pressure >= 150 &&  person.systolic_blood_pressure < 160 {
-                6;
+                6.0;
             } else if person.systolic_blood_pressure >= 160 {
-                7;
+                7.0;
             }
         }    
     }
-    return 0;
+    return 0.0;
 }
 
-fn total_cholesterol_scoring(person : &Person) -> isize {
+fn total_cholesterol_scoring(person : &Person) -> f64 {
 
     if person.total_cholesterol < 160 {
         0;
@@ -232,93 +232,93 @@ fn total_cholesterol_scoring(person : &Person) -> isize {
         }
     }
 
-    return 0;
+    return 0.0;
 }
 
-fn hdl_scoring(person : &Person) -> isize {
+fn hdl_scoring(person : &Person) -> f64 {
 
     if person.hdl_cholesterol >= 60 {
-        return -2;
+        return -2.0;
     } else if person.hdl_cholesterol >= 50 && person.hdl_cholesterol < 60 {
-        return -1;
+        return -1.0;
     } else if person.hdl_cholesterol >= 45 && person.hdl_cholesterol < 50 {
-        return 0;
+        return 0.0;
     } else if person.hdl_cholesterol >= 35 && person.hdl_cholesterol < 45 {
-        return 1;
+        return 1.0;
     } else if person.hdl_cholesterol < 35 {
-        return 2;
+        return 2.0;
     }
 
-    return 0;
+    return 0.0;
 }
 
-fn heart_age (sex : &String, framingham_score : isize) -> &str {
-    if framingham_score >= 2 && framingham_score < 3 {
+fn heart_age (sex : &String, framingham_score : f64) -> &str {
+    if framingham_score >= 2.0 && framingham_score < 3.0 {
         "34 y/o";
-    } else if framingham_score >= 3 && framingham_score < 4 {
+    } else if framingham_score >= 3.0 && framingham_score < 4.0 {
         "36 y/o";
     }
 
     if sex.eq("Men") {
-        if framingham_score >= 0 && framingham_score < 1 {
+        if framingham_score >= 0.0 && framingham_score < 1.0 {
             "30 y/o";
-        } else if framingham_score >= 1 && framingham_score < 2 {
+        } else if framingham_score >= 1.0 && framingham_score < 2.0 {
             "32 y/o";
-        } else if framingham_score >= 4 && framingham_score < 5 {
+        } else if framingham_score >= 4.0 && framingham_score < 5.0 {
             "38 y/o";
-        } else if framingham_score >= 5 && framingham_score < 6 {
+        } else if framingham_score >= 5.0 && framingham_score < 6.0 {
             "40 y/o";
-        } else if framingham_score >= 6 && framingham_score < 7 {
+        } else if framingham_score >= 6.0 && framingham_score < 7.0 {
             "42 y/o";
-        } else if framingham_score >= 7 && framingham_score < 8 {
+        } else if framingham_score >= 7.0 && framingham_score < 8.0 {
             "45 y/o";
-        } else if framingham_score >= 8 && framingham_score < 9 {
+        } else if framingham_score >= 8.0 && framingham_score < 9.0 {
             "48 y/o";
-        } else if framingham_score >= 9 && framingham_score < 10 {
+        } else if framingham_score >= 9.0 && framingham_score < 10.0 {
             "51 y/o";
-        } else if framingham_score >= 10 && framingham_score < 11 {
+        } else if framingham_score >= 10.0 && framingham_score < 11.0 {
             "54 y/o";
-        } else if framingham_score >= 11 && framingham_score < 12 {
+        } else if framingham_score >= 11.0 && framingham_score < 12.0 {
             "57 y/o";
-        } else if framingham_score >= 12 && framingham_score < 13 {
+        } else if framingham_score >= 12.0 && framingham_score < 13.0 {
             "60 y/o";
-        } else if framingham_score >= 13 && framingham_score < 14 {
+        } else if framingham_score >= 13.0 && framingham_score < 14.0 {
             "64 y/o";
-        } else if framingham_score >= 14 && framingham_score < 15 {
+        } else if framingham_score >= 14.0 && framingham_score < 15.0 {
             "68 y/o";
-        } else if framingham_score >= 15 && framingham_score < 16 {
+        } else if framingham_score >= 15.0 && framingham_score < 16.0 {
             "72 y/o";
-        } else if framingham_score >= 16 && framingham_score < 17 {
+        } else if framingham_score >= 16.0 && framingham_score < 17.0 {
             "76 y/o";
-        } else if framingham_score >= 17 {
+        } else if framingham_score >= 17.0 {
             ">80 y/o";
         }
     } else {
-        if framingham_score >= 1 && framingham_score < 2 {
+        if framingham_score >= 1.0 && framingham_score < 2.0 {
             "31 y/o";
-        } else if framingham_score >= 4 && framingham_score < 5 {
+        } else if framingham_score >= 4.0 && framingham_score < 5.0 {
             "39 y/o";
-        } else if framingham_score >= 5 && framingham_score < 6 {
+        } else if framingham_score >= 5.0 && framingham_score < 6.0 {
             "42 y/o";
-        } else if framingham_score >= 6 && framingham_score < 7 {
+        } else if framingham_score >= 6.0 && framingham_score < 7.0 {
             "45 y/o";
-        } else if framingham_score >= 7 && framingham_score < 8 {
+        } else if framingham_score >= 7.0 && framingham_score < 8.0 {
             "48 y/o";
-        } else if framingham_score >= 8 && framingham_score < 9 {
+        } else if framingham_score >= 8.0 && framingham_score < 9.0 {
             "51 y/o";
-        } else if framingham_score >= 9 && framingham_score < 10 {
+        } else if framingham_score >= 9.0 && framingham_score < 10.0 {
             "55 y/o";
-        } else if framingham_score >= 10 && framingham_score < 11 {
+        } else if framingham_score >= 10.0 && framingham_score < 11.0 {
             "59 y/o";
-        } else if framingham_score >= 11 && framingham_score < 12 {
+        } else if framingham_score >= 11.0 && framingham_score < 12.0 {
             "64 y/o";
-        } else if framingham_score >= 12 && framingham_score < 13 {
+        } else if framingham_score >= 12.0 && framingham_score < 13.0 {
             "68 y/o";
-        } else if framingham_score >= 13 && framingham_score < 14 {
+        } else if framingham_score >= 13.0 && framingham_score < 14.0 {
             "73 y/o";
-        } else if framingham_score >= 14 && framingham_score < 15 {
+        } else if framingham_score >= 14.0 && framingham_score < 15.0 {
             "79 y/o";
-        } else if framingham_score >= 15 {
+        } else if framingham_score >= 15.0 {
             ">80 y/o";
         }
     }
