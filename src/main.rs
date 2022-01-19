@@ -53,6 +53,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
     let sbp_score = sbp_scoring(&person);
     let total_cholesterol_score = total_cholesterol_scoring(&person);
     let hdl_score = hdl_scoring(&person);
+    let framingham_score = age_score + hdl_score + total_cholesterol_score + sbp_score + diabetic_score;
 
     let result = json!({
         "Age": person.age,
@@ -65,7 +66,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
         "Diabetic?": person.diabetic,
         "Age score": age_score,
         "Diabetic score": diabetic_score,
-        "Framingham score":13,
+        "Framingham score": framingham_score,
         "Total Cholesterol score": total_cholesterol_score,
         "HDL score": hdl_score,
         "CVD Risk":"10.0 %",
@@ -77,7 +78,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
     Ok(warp::reply::json(&result))
 }
 
-fn age_scoring(person : &Person) -> usize {
+fn age_scoring(person : &Person) -> isize {
     if person.age < 35 {
         return 0;
     } else if person.age < 40 {
@@ -122,7 +123,7 @@ fn age_scoring(person : &Person) -> usize {
     0
 }
 
-fn smoke_scoring(person : &Person) -> usize {
+fn smoke_scoring(person : &Person) -> isize {
     if person.smoker == true { 
         if person.sex.eq("Women") {
             3;
@@ -133,7 +134,7 @@ fn smoke_scoring(person : &Person) -> usize {
     0
 }
 
-fn diabetic_scoring(person : &Person) -> usize {
+fn diabetic_scoring(person : &Person) -> isize {
     if person.diabetic == true { 
         if person.sex.eq("Women") {
             4;
