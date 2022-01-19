@@ -55,6 +55,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
     let hdl_score = hdl_scoring(&person);
     let framingham_score = age_score + hdl_score + total_cholesterol_score + sbp_score + diabetic_score;
     let heart_age = heart_age(&person.sex, framingham_score);
+    let cvd_risk = cvd_risk(&person.sex, framingham_score);
 
     let result = json!({
         "Age": person.age,
@@ -70,7 +71,7 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
         "Framingham score": framingham_score,
         "Total Cholesterol score": total_cholesterol_score,
         "HDL score": hdl_score,
-        "CVD Risk":"10.0 %",
+        "CVD Risk":cvd_risk,
         "Heart age/vascular age":heart_age,
         "Smoker score":smoke_score,
         "SBP score": sbp_score
@@ -324,4 +325,105 @@ fn heart_age (sex : &String, framingham_score : f64) -> &str {
     }
     
     "<30 y/o"
+}
+
+fn cvd_risk (sex : &String, framingham_score : f64) -> &str {
+    if sex.eq("Men") {
+        if framingham_score <= -3.0 {
+            "<1 %";
+        } else if framingham_score > -3.0 && framingham_score <= -2.0 {
+            "1.1 %";
+        } else if framingham_score > -2.0 && framingham_score <= -1.0 {
+            "1.4 %";
+        } else if framingham_score > -1.0 && framingham_score <= -0.0 {
+            "1.6 %";
+        } else if framingham_score > 0.0 && framingham_score <= 1.0 {
+            "1.9 %";
+        } else if framingham_score > 1.0 && framingham_score <= 2.0 {
+            "2.3 %";
+        } else if framingham_score > 2.0 && framingham_score <= 3.0 {
+            "2.8 %";
+        } else if framingham_score > 3.0 && framingham_score <= 4.0 {
+            "3.3 %";
+        } else if framingham_score > 4.0 && framingham_score <= 5.0 {
+            "3.9 %";
+        } else if framingham_score > 5.0 && framingham_score <= 6.0 {
+            "4.7 %";
+        } else if framingham_score > 6.0 && framingham_score <= 6.0 {
+            "5.6 %";
+        } else if framingham_score > 7.0 && framingham_score <= 8.0 {
+            "6.7 %";
+        } else if framingham_score > 8.0 && framingham_score <= 9.0 {
+            "7.9 %";
+        } else if framingham_score > 9.0 && framingham_score <= 10.0 {
+            "9.4 %";
+        } else if framingham_score > 10.0 && framingham_score <= 11.0 {
+            "11.2 %";
+        } else if framingham_score > 11.0 && framingham_score <= 12.0 {
+            "13.2 %";
+        } else if framingham_score > 12.0 && framingham_score <= 13.0 {
+            "15.6 %";
+        } else if framingham_score > 13.0 && framingham_score <= 14.0 {
+            "18.4 %";
+        } else if framingham_score > 14.0 && framingham_score <= 15.0 {
+            "21.6 %";
+        } else if framingham_score > 15.0 && framingham_score <= 16.0 {
+            "25.3 %";
+        } else if framingham_score > 16.0 && framingham_score <= 17.0 {
+            "29.4 %";
+        } else if framingham_score > 17.0 {
+            ">30 %";
+        }
+    } else {
+        if framingham_score <= -2.0 {
+            "<1 %";
+        } else if framingham_score > -2.0 && framingham_score <= -1.0 {
+            "1.0 %";
+        } else if framingham_score > -1.0 && framingham_score <= 0.0 {
+            "1.2 %";
+        } else if framingham_score > 0.0 && framingham_score <= 1.0 {
+            "1.5 %";
+        } else if framingham_score > 1.0 && framingham_score <= 2.0 {
+            "1.7 %";
+        } else if framingham_score > 2.0 && framingham_score <= 3.0 {
+            "2.0 %";
+        } else if framingham_score > 3.0 && framingham_score <= 4.0 {
+            "2.4 %";
+        } else if framingham_score > 4.0 && framingham_score <= 5.0 {
+            "2.8 %";
+        } else if framingham_score > 5.0 && framingham_score <= 6.0 {
+            "3.3 %";
+        } else if framingham_score > 6.0 && framingham_score <= 7.0 {
+            "3.9 %";
+        } else if framingham_score > 7.0 && framingham_score <= 8.0 {
+            "4.5 %";
+        } else if framingham_score > 8.0 && framingham_score <= 9.0 {
+            "5.3 %";
+        } else if framingham_score > 9.0 && framingham_score <= 9.0 {
+            "6.3 %";
+        } else if framingham_score > 10.0 && framingham_score <= 11.0 {
+            "7.3 %";
+        } else if framingham_score > 11.0 && framingham_score <= 12.0 {
+            "8.6 %";
+        } else if framingham_score > 12.0 && framingham_score <= 13.0 {
+            "10.0 %";
+        } else if framingham_score > 13.0 && framingham_score <= 14.0 {
+            "11.7 %";
+        } else if framingham_score > 14.0 && framingham_score <= 15.0 {
+            "13.7 %";
+        } else if framingham_score > 15.0 && framingham_score <= 16.0 {
+            "15.9 %";
+        } else if framingham_score > 16.0 && framingham_score <= 17.0 {
+            "18.5 %";
+        } else if framingham_score > 17.0 && framingham_score <= 18.0 {
+            "21.5 %";
+        } else if framingham_score > 18.0 && framingham_score <= 19.0 {
+            "24.8 %";
+        } else if framingham_score > 19.0 && framingham_score <= 20.0 {
+            "28.5 %";
+        } else if framingham_score > 20.0 {
+            "<30 %";
+        }
+    }
+    return "<1 %";
 }
