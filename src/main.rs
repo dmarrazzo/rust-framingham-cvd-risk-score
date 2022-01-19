@@ -151,15 +151,15 @@ fn sbp_scoring(person : &Person) -> f64 {
 
     if !person.on_sbp_treatment {
         if person.systolic_blood_pressure >= 120 &&  person.systolic_blood_pressure < 130 {
-            0.0;
+            return 0.0;
         } else if person.systolic_blood_pressure >= 130 &&  person.systolic_blood_pressure < 140 {
-            1.0;
+            return 1.0;
         }
     } else {
         if person.systolic_blood_pressure >= 120 &&  person.systolic_blood_pressure < 130 {
-            2.0;
+            return 2.0;
         } else if person.systolic_blood_pressure >= 130 &&  person.systolic_blood_pressure < 140 {
-            3.0;
+            return 3.0;
         }
     }
 
@@ -168,17 +168,17 @@ fn sbp_scoring(person : &Person) -> f64 {
             if person.systolic_blood_pressure < 120 {
                 return -2.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 160 {
-                2.0;
+                return 2.0;
             } else if person.systolic_blood_pressure >= 160 {
-                3.0;
+                return 3.0;
             }
         } else {
             if person.systolic_blood_pressure < 120 {
                 return 0.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 160 {
-                4.0;
+                return 4.0;
             } else if person.systolic_blood_pressure >= 160 {
-                5.0;
+                return 5.0;
             }
         }    
     } else {
@@ -186,21 +186,21 @@ fn sbp_scoring(person : &Person) -> f64 {
             if person.systolic_blood_pressure < 120 {
                 return -3.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 150 {
-                2.0;
+                return 2.0;
             } else if person.systolic_blood_pressure >= 150 &&  person.systolic_blood_pressure < 160 {
-                4.0;
+                return 4.0;
             } else if person.systolic_blood_pressure >= 160 {
-                5.0;
+                return 5.0;
             }
         } else {
             if person.systolic_blood_pressure < 120 {
                 return -1.0;
             } else if person.systolic_blood_pressure >= 140 &&  person.systolic_blood_pressure < 150 {
-                5.0;
+                return 5.0;
             } else if person.systolic_blood_pressure >= 150 &&  person.systolic_blood_pressure < 160 {
-                6.0;
+                return 6.0;
             } else if person.systolic_blood_pressure >= 160 {
-                7.0;
+                return 7.0;
             }
         }    
     }
@@ -210,30 +210,28 @@ fn sbp_scoring(person : &Person) -> f64 {
 fn total_cholesterol_scoring(person : &Person) -> f64 {
 
     if person.total_cholesterol < 160 {
-        0;
+        return 0.0;
     } else if person.total_cholesterol >= 160 && person.total_cholesterol < 200 {
-        1;
+        return 1.0;
     }
 
     if person.sex.eq("Men") {
         if person.total_cholesterol >= 200 && person.total_cholesterol < 240 {
-            2;
+            return 2.0;
         } else if person.total_cholesterol >= 240 && person.total_cholesterol < 280 {
-            3;
+            return 3.0;
         } else {
-            4;
+            return 4.0;
         }
     } else {
         if person.total_cholesterol >= 200 && person.total_cholesterol < 240 {
-            3;
+            return 3.0;
         } else if person.total_cholesterol >= 240 && person.total_cholesterol < 280 {
-            4;
+            return 4.0;
         } else {
-            5;
+            return 5.0;
         }
     }
-
-    return 0.0;
 }
 
 fn hdl_scoring(person : &Person) -> f64 {
@@ -255,174 +253,174 @@ fn hdl_scoring(person : &Person) -> f64 {
 
 fn heart_age (sex : &String, framingham_score : f64) -> &str {
     if framingham_score >= 2.0 && framingham_score < 3.0 {
-        "34 y/o";
+        return "34 y/o";
     } else if framingham_score >= 3.0 && framingham_score < 4.0 {
-        "36 y/o";
+        return "36 y/o";
     }
 
     if sex.eq("Men") {
         if framingham_score >= 0.0 && framingham_score < 1.0 {
-            "30 y/o";
+            return "30 y/o";
         } else if framingham_score >= 1.0 && framingham_score < 2.0 {
-            "32 y/o";
+            return "32 y/o";
         } else if framingham_score >= 4.0 && framingham_score < 5.0 {
-            "38 y/o";
+            return "38 y/o";
         } else if framingham_score >= 5.0 && framingham_score < 6.0 {
-            "40 y/o";
+            return "40 y/o";
         } else if framingham_score >= 6.0 && framingham_score < 7.0 {
-            "42 y/o";
+            return "42 y/o";
         } else if framingham_score >= 7.0 && framingham_score < 8.0 {
-            "45 y/o";
+            return "45 y/o";
         } else if framingham_score >= 8.0 && framingham_score < 9.0 {
-            "48 y/o";
+            return "48 y/o";
         } else if framingham_score >= 9.0 && framingham_score < 10.0 {
-            "51 y/o";
+            return "51 y/o";
         } else if framingham_score >= 10.0 && framingham_score < 11.0 {
-            "54 y/o";
+            return "54 y/o";
         } else if framingham_score >= 11.0 && framingham_score < 12.0 {
-            "57 y/o";
+            return "57 y/o";
         } else if framingham_score >= 12.0 && framingham_score < 13.0 {
-            "60 y/o";
+            return "60 y/o";
         } else if framingham_score >= 13.0 && framingham_score < 14.0 {
-            "64 y/o";
+            return "64 y/o";
         } else if framingham_score >= 14.0 && framingham_score < 15.0 {
-            "68 y/o";
+            return "68 y/o";
         } else if framingham_score >= 15.0 && framingham_score < 16.0 {
-            "72 y/o";
+            return "72 y/o";
         } else if framingham_score >= 16.0 && framingham_score < 17.0 {
-            "76 y/o";
+            return "76 y/o";
         } else if framingham_score >= 17.0 {
-            ">80 y/o";
+            return ">80 y/o";
         }
     } else {
         if framingham_score >= 1.0 && framingham_score < 2.0 {
-            "31 y/o";
+            return "31 y/o";
         } else if framingham_score >= 4.0 && framingham_score < 5.0 {
-            "39 y/o";
+            return "39 y/o";
         } else if framingham_score >= 5.0 && framingham_score < 6.0 {
-            "42 y/o";
+            return "42 y/o";
         } else if framingham_score >= 6.0 && framingham_score < 7.0 {
-            "45 y/o";
+            return "45 y/o";
         } else if framingham_score >= 7.0 && framingham_score < 8.0 {
-            "48 y/o";
+            return "48 y/o";
         } else if framingham_score >= 8.0 && framingham_score < 9.0 {
-            "51 y/o";
+            return "51 y/o";
         } else if framingham_score >= 9.0 && framingham_score < 10.0 {
-            "55 y/o";
+            return "55 y/o";
         } else if framingham_score >= 10.0 && framingham_score < 11.0 {
-            "59 y/o";
+            return "59 y/o";
         } else if framingham_score >= 11.0 && framingham_score < 12.0 {
-            "64 y/o";
+            return "64 y/o";
         } else if framingham_score >= 12.0 && framingham_score < 13.0 {
-            "68 y/o";
+            return "68 y/o";
         } else if framingham_score >= 13.0 && framingham_score < 14.0 {
-            "73 y/o";
+            return "73 y/o";
         } else if framingham_score >= 14.0 && framingham_score < 15.0 {
-            "79 y/o";
+            return "79 y/o";
         } else if framingham_score >= 15.0 {
-            ">80 y/o";
+            return ">80 y/o";
         }
     }
     
-    "<30 y/o"
+    return "<30 y/o";
 }
 
 fn cvd_risk (sex : &String, framingham_score : f64) -> &str {
     if sex.eq("Men") {
         if framingham_score <= -3.0 {
-            "<1 %";
+            return "<1 %";
         } else if framingham_score > -3.0 && framingham_score <= -2.0 {
-            "1.1 %";
+            return "1.1 %";
         } else if framingham_score > -2.0 && framingham_score <= -1.0 {
-            "1.4 %";
+            return "1.4 %";
         } else if framingham_score > -1.0 && framingham_score <= -0.0 {
-            "1.6 %";
+            return "1.6 %";
         } else if framingham_score > 0.0 && framingham_score <= 1.0 {
-            "1.9 %";
+            return "1.9 %";
         } else if framingham_score > 1.0 && framingham_score <= 2.0 {
-            "2.3 %";
+            return "2.3 %";
         } else if framingham_score > 2.0 && framingham_score <= 3.0 {
-            "2.8 %";
+            return "2.8 %";
         } else if framingham_score > 3.0 && framingham_score <= 4.0 {
-            "3.3 %";
+            return "3.3 %";
         } else if framingham_score > 4.0 && framingham_score <= 5.0 {
-            "3.9 %";
+            return "3.9 %";
         } else if framingham_score > 5.0 && framingham_score <= 6.0 {
-            "4.7 %";
+            return "4.7 %";
         } else if framingham_score > 6.0 && framingham_score <= 6.0 {
-            "5.6 %";
+            return "5.6 %";
         } else if framingham_score > 7.0 && framingham_score <= 8.0 {
-            "6.7 %";
+            return "6.7 %";
         } else if framingham_score > 8.0 && framingham_score <= 9.0 {
-            "7.9 %";
+            return "7.9 %";
         } else if framingham_score > 9.0 && framingham_score <= 10.0 {
-            "9.4 %";
+            return "9.4 %";
         } else if framingham_score > 10.0 && framingham_score <= 11.0 {
-            "11.2 %";
+            return "11.2 %";
         } else if framingham_score > 11.0 && framingham_score <= 12.0 {
-            "13.2 %";
+            return "13.2 %";
         } else if framingham_score > 12.0 && framingham_score <= 13.0 {
-            "15.6 %";
+            return "15.6 %";
         } else if framingham_score > 13.0 && framingham_score <= 14.0 {
-            "18.4 %";
+            return "18.4 %";
         } else if framingham_score > 14.0 && framingham_score <= 15.0 {
-            "21.6 %";
+            return "21.6 %";
         } else if framingham_score > 15.0 && framingham_score <= 16.0 {
-            "25.3 %";
+            return "25.3 %";
         } else if framingham_score > 16.0 && framingham_score <= 17.0 {
-            "29.4 %";
+            return "29.4 %";
         } else if framingham_score > 17.0 {
-            ">30 %";
+            return ">30 %";
         }
     } else {
         if framingham_score <= -2.0 {
-            "<1 %";
+            return "<1 %";
         } else if framingham_score > -2.0 && framingham_score <= -1.0 {
-            "1.0 %";
+            return "1.0 %";
         } else if framingham_score > -1.0 && framingham_score <= 0.0 {
-            "1.2 %";
+            return "1.2 %";
         } else if framingham_score > 0.0 && framingham_score <= 1.0 {
-            "1.5 %";
+            return "1.5 %";
         } else if framingham_score > 1.0 && framingham_score <= 2.0 {
-            "1.7 %";
+            return "1.7 %";
         } else if framingham_score > 2.0 && framingham_score <= 3.0 {
-            "2.0 %";
+            return "2.0 %";
         } else if framingham_score > 3.0 && framingham_score <= 4.0 {
-            "2.4 %";
+            return "2.4 %";
         } else if framingham_score > 4.0 && framingham_score <= 5.0 {
-            "2.8 %";
+            return "2.8 %";
         } else if framingham_score > 5.0 && framingham_score <= 6.0 {
-            "3.3 %";
+            return "3.3 %";
         } else if framingham_score > 6.0 && framingham_score <= 7.0 {
-            "3.9 %";
+            return "3.9 %";
         } else if framingham_score > 7.0 && framingham_score <= 8.0 {
-            "4.5 %";
+            return "4.5 %";
         } else if framingham_score > 8.0 && framingham_score <= 9.0 {
-            "5.3 %";
+            return "5.3 %";
         } else if framingham_score > 9.0 && framingham_score <= 9.0 {
-            "6.3 %";
+            return "6.3 %";
         } else if framingham_score > 10.0 && framingham_score <= 11.0 {
-            "7.3 %";
+            return "7.3 %";
         } else if framingham_score > 11.0 && framingham_score <= 12.0 {
-            "8.6 %";
+            return "8.6 %";
         } else if framingham_score > 12.0 && framingham_score <= 13.0 {
-            "10.0 %";
+            return "10.0 %";
         } else if framingham_score > 13.0 && framingham_score <= 14.0 {
-            "11.7 %";
+            return "11.7 %";
         } else if framingham_score > 14.0 && framingham_score <= 15.0 {
-            "13.7 %";
+            return "13.7 %";
         } else if framingham_score > 15.0 && framingham_score <= 16.0 {
-            "15.9 %";
+            return "15.9 %";
         } else if framingham_score > 16.0 && framingham_score <= 17.0 {
-            "18.5 %";
+            return "18.5 %";
         } else if framingham_score > 17.0 && framingham_score <= 18.0 {
-            "21.5 %";
+            return "21.5 %";
         } else if framingham_score > 18.0 && framingham_score <= 19.0 {
-            "24.8 %";
+            return "24.8 %";
         } else if framingham_score > 19.0 && framingham_score <= 20.0 {
-            "28.5 %";
+            return "28.5 %";
         } else if framingham_score > 20.0 {
-            "<30 %";
+           return  "<30 %";
         }
     }
     return "<1 %";
