@@ -1,6 +1,6 @@
 An implementation of the [Framingham CVD risk score](https://en.wikipedia.org/wiki/Framingham_Risk_Score) in [Rust Language](https://www.rust-lang.org/)
 
-Inspired by the [DMN Imolementation](https://github.com/tarilabs/dmn-framingham-cvd-risk-score)
+Inspired by the [DMN Implementation](https://github.com/tarilabs/dmn-framingham-cvd-risk-score)
 
 # Disclaimer
 **Not medical advice. Always seek professional medical advice.**
