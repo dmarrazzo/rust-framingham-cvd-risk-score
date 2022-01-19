@@ -48,6 +48,8 @@ fn json_body() -> impl Filter<Extract = (Person,), Error = warp::Rejection> + Cl
 async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Rejection> {
 
     let age_score = age_scoring(&person);
+    let smoke_score = smoke_scoring(&person);
+    let diabetic_score = diabetic_scoring(&person);
 
     let result = json!({
         "Age": person.age,
@@ -59,13 +61,13 @@ async fn evaluate_score(person: Person) -> Result<impl warp::Reply, warp::Reject
         "HDL Cholesterol": person.hdl_cholesterol,
         "Diabetic?": person.diabetic,
         "Age score": age_score,
-        "Diabetic score":0,
+        "Diabetic score": diabetic_score,
         "Framingham score":13,
         "Total Cholesterol score":1,
         "HDL score":0,
         "CVD Risk":"10.0 %",
         "Heart age/vascular age":"73 y/o",
-        "Smoker score":3,
+        "Smoker score":smoke_score,
         "SBP score":0
     });
 
@@ -112,6 +114,28 @@ fn age_scoring(person : &Person) -> usize {
             return 11;
         } else {
             return 12;
+        }
+    }
+    0
+}
+
+fn smoke_scoring(person : &Person) -> usize {
+    if person.smoker == true { 
+        if person.sex.eq("Women") {
+            3;
+        } else {
+            4;
+        }
+    }
+    0
+}
+
+fn diabetic_scoring(person : &Person) -> usize {
+    if person.smoker == true { 
+        if person.sex.eq("Women") {
+            4;
+        } else {
+            3;
         }
     }
     0
